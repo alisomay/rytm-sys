@@ -1,7 +1,16 @@
 [package]
 name = "rytm-sys"
 version = "0.1.0"
+authors = ["alisomay <alisomay@runbox.com>"]
 edition = "2021"
+license = "MIT"
+description = "Rust bindings for libanalogrytm"
+readme = "README.md"
+homepage = "https://github.com/alisomay/rytm-sys"
+repository = "https://github.com/alisomay/rytm-sys"
+documentation = "https://docs.rs/rytm-sys/0.1.0/rytm-sys/"
+keywords = ["analogrytm", "libanalogrytm", "audio", "midi", "bindings"]
+categories = ["external-ffi-bindings"]
 
 [dependencies]
 
