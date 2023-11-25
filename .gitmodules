@@ -1,0 +1,3 @@
+[submodule "libanalogrytm"]
+	path = libanalogrytm
+	url = https://github.com/alisomay/libanalogrytm.git
