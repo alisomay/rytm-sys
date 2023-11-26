@@ -21,6 +21,8 @@ fn main() {
             libanalogrytm_dir.join("kit.c"),
             libanalogrytm_dir.join("pattern.c"),
             libanalogrytm_dir.join("sound.c"),
+            libanalogrytm_dir.join("global.c"),
+            libanalogrytm_dir.join("settings.c"),
             libanalogrytm_dir.join("sysex.c"),
         ])
         .compile("analogrytm");
