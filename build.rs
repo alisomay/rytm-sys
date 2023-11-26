@@ -3,6 +3,7 @@
 
 use std::{
     env,
+    io::BufRead,
     path::{Path, PathBuf},
 };
 
@@ -29,9 +30,9 @@ fn main() {
 
     let mut bindings_builder = bindgen::Builder::default()
         .header("wrapper.h")
-        // .array_pointers_in_arguments(doit)
         .generate_comments(true)
         .explicit_padding(true)
+        .derive_default(true)
         .clang_arg(format!("-I{}", &libanalogrytm_dir.to_string_lossy()))
         // Tell cargo to invalidate the built crate whenever any of the
         // included header files changed.
@@ -41,7 +42,27 @@ fn main() {
         .generate()
         .expect("Unable to generate bindings");
 
+    let bindings_path = out_dir.join("bindings.rs");
+
     bindings
-        .write_to_file(out_dir.join("bindings.rs"))
+        .write_to_file(&bindings_path)
         .expect("Couldn't write bindings!");
+
+    // Post process bindings making every struct packed
+    // libanalogrytm only uses 1 byte aligned packed structs which bindgen sometimes does not generate properly.
+    let mut file = std::fs::File::open(&bindings_path).unwrap();
+    let replaced = std::io::BufReader::new(file)
+        .lines()
+        .map(|line| {
+            let line = line.unwrap();
+            if line.contains("#[repr(C)]") {
+                line.replace("#[repr(C)]", "#[repr(C, packed)]")
+            } else {
+                line
+            }
+        })
+        .collect::<Vec<_>>()
+        .join("\n");
+
+    std::fs::write(&bindings_path, replaced).expect("Couldn't post process bindings!");
 }
