@@ -35,6 +35,8 @@ fn main() {
         .generate_comments(true)
         .explicit_padding(true)
         .derive_default(true)
+        // We're deriving this ourselves.
+        .no_default("ar_plock_seq_t")
         .clang_arg(format!("-I{}", &libanalogrytm_dir.to_string_lossy()))
         // Tell cargo to invalidate the built crate whenever any of the
         // included header files changed.
